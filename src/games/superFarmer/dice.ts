@@ -73,3 +73,7 @@ export function rollHasSymbol(roll: DiceRoll, symbol: DiceSymbol) {
 export function rollSymbolCount(roll: DiceRoll, symbol: DiceSymbol) {
   return (roll[0] === symbol ? 1 : 0) + (roll[1] === symbol ? 1 : 0);
 }
+
+export function printDiceRoll(roll: DiceRoll) {
+  console.log(`DICE ROLL: ${roll[0]}, ${roll[1]}`)
+}

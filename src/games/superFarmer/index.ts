@@ -1,2 +1,2 @@
 export * from './dice';
-export * from './state';
+export * from './playerState';

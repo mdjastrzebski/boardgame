@@ -7,9 +7,9 @@ function run() {
 
   for (let round = 0; round < 1000; round += 1) {
     const roll = rollBothDice();
-    console.log('ROLL', roll);
+    SuperFarmer.printDiceRoll(roll);
     playerState = SuperFarmer.playerDiceRollReducer(playerState, roll);
-    console.log('STATE', playerState);
+    SuperFarmer.printPlayerState(playerState);
   }
 }
 

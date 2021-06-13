@@ -79,3 +79,15 @@ function largeDogDiceRollReducer(count: number, roll: DiceRoll) {
 
   return count + Math.floor(count / 2);
 }
+
+export function printPlayerState(state: PlayerState) {
+  console.log(
+    `PLAYER STATE: ` +
+      `rabbits: ${state.rabbitCount}, ` +
+      `sheep: ${state.sheepCount}, ` +
+      `cows: ${state.cowCount}, ` +
+      `horses: ${state.horseCount}, ` +
+      `small dog: ${state.smallDogCount}, ` +
+      `large dog: ${state.largeDogCount}.`,
+  );
+}
