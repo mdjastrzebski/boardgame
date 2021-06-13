@@ -5,34 +5,34 @@ import { DiceSymbol, DiceRoll, rollHasSymbol, rollSymbolCount } from './dice';
  */
 
 export type PlayerState = {
-  rabbitCount: number;
-  sheepCount: number;
-  pigCount: number;
-  cowCount: number;
-  horseCount: number;
-  smallDogCount: number;
-  largeDogCount: number;
+  rabbits: number;
+  sheep: number;
+  pigs: number;
+  cows: number;
+  horses: number;
+  smallDogs: number;
+  largeDogs: number;
 };
 
 export const initialPlayerState: PlayerState = {
-  rabbitCount: 0,
-  sheepCount: 0,
-  pigCount: 0,
-  cowCount: 0,
-  horseCount: 0,
-  smallDogCount: 0,
-  largeDogCount: 0,
+  rabbits: 0,
+  sheep: 0,
+  pigs: 0,
+  cows: 0,
+  horses: 0,
+  smallDogs: 0,
+  largeDogs: 0,
 };
 
 export function playerDiceRollReducer(state: PlayerState, roll: DiceRoll): PlayerState {
   return {
-    rabbitCount: rabbitsDiceRollReducer(state.rabbitCount, roll),
-    sheepCount: largeAnimalDiceRollReducer(DiceSymbol.Sheep, state.sheepCount, roll),
-    pigCount: largeAnimalDiceRollReducer(DiceSymbol.Pig, state.pigCount, roll),
-    cowCount: largeAnimalDiceRollReducer(DiceSymbol.Cow, state.cowCount, roll),
-    horseCount: horseDiceRollReducer(state.horseCount, roll),
-    smallDogCount: smallDogDiceRollReducer(state.smallDogCount, roll),
-    largeDogCount: largeDogDiceRollReducer(state.largeDogCount, roll),
+    rabbits: rabbitsDiceRollReducer(state.rabbits, roll),
+    sheep: largeAnimalDiceRollReducer(DiceSymbol.Sheep, state.sheep, roll),
+    pigs: largeAnimalDiceRollReducer(DiceSymbol.Pig, state.pigs, roll),
+    cows: largeAnimalDiceRollReducer(DiceSymbol.Cow, state.cows, roll),
+    horses: horseDiceRollReducer(state.horses, roll),
+    smallDogs: smallDogDiceRollReducer(state.smallDogs, roll),
+    largeDogs: largeDogDiceRollReducer(state.largeDogs, roll),
   };
 }
 
@@ -83,11 +83,11 @@ function largeDogDiceRollReducer(count: number, roll: DiceRoll) {
 export function printPlayerState(state: PlayerState) {
   console.log(
     `PLAYER STATE: ` +
-      `rabbits: ${state.rabbitCount}, ` +
-      `sheep: ${state.sheepCount}, ` +
-      `cows: ${state.cowCount}, ` +
-      `horses: ${state.horseCount}, ` +
-      `small dog: ${state.smallDogCount}, ` +
-      `large dog: ${state.largeDogCount}.`,
+      `rabbits: ${state.rabbits}, ` +
+      `sheep: ${state.sheep}, ` +
+      `cows: ${state.cows}, ` +
+      `horses: ${state.horses}, ` +
+      `small dog: ${state.smallDogs}, ` +
+      `large dog: ${state.largeDogs}.`,
   );
 }
