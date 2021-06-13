@@ -1,7 +1,7 @@
 import { randomInteger } from '../../core/random';
 
 export enum DiceSymbol {
-    Rabbit = "rabit",
+    Rabbit = "rabbit",
     Sheep = "sheep",
     Pig = "pig",
     Cow = "cow",
@@ -56,10 +56,20 @@ export function rollDiceTwo(): DiceSymbol {
   return diceTwoSides[side];
 }
 
+export type DiceRoll = [DiceSymbol, DiceSymbol];
+
 /**
  * Roll both dice - standard player roll.
  * @returns Tuple of DiceSymbol.
  */
-export function rollBothDice(): [DiceSymbol, DiceSymbol] {
+export function rollBothDice(): DiceRoll {
   return [rollDiceOne(), rollDiceTwo()];
+}
+
+export function rollHasSymbol(roll: DiceRoll, symbol: DiceSymbol) {
+  return roll[0] === symbol || roll[1] === symbol;
+}
+
+export function rollSymbolCount(roll: DiceRoll, symbol: DiceSymbol) {
+  return (roll[0] === symbol ? 1 : 0) + (roll[1] === symbol ? 1 : 0);
 }
