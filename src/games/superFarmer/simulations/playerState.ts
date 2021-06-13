@@ -1,15 +1,15 @@
 import * as SuperFarmer from '..';
-import { rollBothDice } from '../dice';
+import { rollDice } from '../rules/DiceRoll';
 
 function run() {
   let playerState = SuperFarmer.initialPlayerState;
   console.log('STATE', playerState);
 
   for (let round = 0; round < 1000; round += 1) {
-    const roll = rollBothDice();
+    const roll = rollDice();
     SuperFarmer.printDiceRoll(roll);
     playerState = SuperFarmer.playerDiceRollReducer(playerState, roll);
-    SuperFarmer.printPlayerState(playerState);
+    SuperFarmer.printHoldings(playerState);
   }
 }
 

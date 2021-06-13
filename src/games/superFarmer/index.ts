@@ -1,2 +1,2 @@
-export * from './dice';
-export * from './playerState';
+export * from './rules/DiceRoll';
+export * from './diceRollReducer';

@@ -1,4 +1,4 @@
-import { randomInteger } from '../../core/random';
+import { randomInteger } from '../../../core/random';
 
 export enum DiceSymbol {
     Rabbit = "rabbit",
@@ -46,24 +46,24 @@ export const diceTwoSides = [
   DiceSymbol.Wolf,
 ];
 
-export function rollDiceOne(): DiceSymbol {
-  const side = randomInteger(diceOneSides.length);
-  return diceOneSides[side];
-}
-
-export function rollDiceTwo(): DiceSymbol {
-  const side = randomInteger(diceTwoSides.length);
-  return diceTwoSides[side];
-}
-
 export type DiceRoll = [DiceSymbol, DiceSymbol];
 
 /**
  * Roll both dice - standard player roll.
  * @returns Tuple of DiceSymbol.
  */
-export function rollBothDice(): DiceRoll {
+export function rollDice(): DiceRoll {
   return [rollDiceOne(), rollDiceTwo()];
+}
+
+function rollDiceOne(): DiceSymbol {
+  const side = randomInteger(diceOneSides.length);
+  return diceOneSides[side];
+}
+
+function rollDiceTwo(): DiceSymbol {
+  const side = randomInteger(diceTwoSides.length);
+  return diceTwoSides[side];
 }
 
 export function rollHasSymbol(roll: DiceRoll, symbol: DiceSymbol) {
@@ -75,5 +75,5 @@ export function rollSymbolCount(roll: DiceRoll, symbol: DiceSymbol) {
 }
 
 export function printDiceRoll(roll: DiceRoll) {
-  console.log(`DICE ROLL: ${roll[0]}, ${roll[1]}`)
+  console.log(`  Roll: ${roll[0]}, ${roll[1]}`)
 }
