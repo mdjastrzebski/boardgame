@@ -1,4 +1,4 @@
-import { GameState, DiceSymbol, DiceRoll, rollHasSymbol, rollSymbolCount, Animal, Holdings } from './rules';
+import { GameState, DiceSymbol, DiceRoll, rollHasSymbol, rollSymbolCount, Animal, Holdings, emptyHoldings } from './rules';
 
 /**
  * Super Farmer player game state: number of rabbits, sheep, pigs, cows, horses, small dogs & large dogs.
@@ -8,21 +8,21 @@ export function diceRollReducer(state: GameState, roll: DiceRoll): GameState {
   const { player, common } = state;
 
   const diff = {
-    rabbit: getRabbitsDiff(player.rabbit ?? 0, common.rabbit ?? 0, roll, player.smallDog ?? 0),
-    sheep: getLargeAnimalDiff(DiceSymbol.Sheep, player.sheep ?? 0, common.sheep ?? 0, roll, player.largeDog ?? 0),
-    pig: getLargeAnimalDiff(DiceSymbol.Pig, player.pig ?? 0, common.pig ?? 0, roll, player.largeDog ?? 0),
-    cow: getLargeAnimalDiff(DiceSymbol.Cow, player.cow ?? 0, common.cow ?? 0, roll, player.largeDog ?? 0),
-    horse: getHorsesDiff(player.horse ?? 0, common.horse ?? 0, roll),
-    smallDog: getSmallDogsDiff(player.smallDog ?? 0, common.smallDog ?? 0, roll),
-    largeDog: getLargeDogsDiff(player.largeDog ?? 0, common.largeDog ?? 0, roll),
+    rabbit: getRabbitsDiff(player.rabbit, common.rabbit, roll, player.smallDog),
+    sheep: getLargeAnimalDiff(DiceSymbol.Sheep, player.sheep, common.sheep, roll, player.largeDog),
+    pig: getLargeAnimalDiff(DiceSymbol.Pig, player.pig, common.pig, roll, player.largeDog),
+    cow: getLargeAnimalDiff(DiceSymbol.Cow, player.cow, common.cow, roll, player.largeDog),
+    horse: getHorsesDiff(player.horse, common.horse, roll),
+    smallDog: getSmallDogsDiff(player.smallDog, common.smallDog, roll),
+    largeDog: getLargeDogsDiff(player.largeDog, common.largeDog, roll),
   };
 
-  const resultCommon: Holdings = {};
-  const resultPlayer: Holdings = {};
+  const resultCommon: Holdings = { ...emptyHoldings };
+  const resultPlayer: Holdings = { ...emptyHoldings };
 
   Object.values(Animal).forEach((animal) => {
-    resultCommon[animal] = (common[animal] ?? 0) - diff[animal];
-    resultPlayer[animal] = (player[animal] ?? 0) + diff[animal];
+    resultCommon[animal] = common[animal] - diff[animal];
+    resultPlayer[animal] = player[animal] + diff[animal];
   });
 
   return { common: resultCommon, player: resultPlayer };

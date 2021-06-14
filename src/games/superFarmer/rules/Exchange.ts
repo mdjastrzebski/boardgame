@@ -16,9 +16,9 @@ export function isValidExchange(game: GameState, exchange: Exchange) {
 }
 
 function getHoldingsValue(holdings: Holdings) {
-  return sum(Object.values(Animal).map((animal) => (holdings[animal] ?? 0) * valuePerAnimal[animal]));
+  return sum(Object.values(Animal).map((animal) => holdings[animal] * valuePerAnimal[animal]));
 }
 
 function hasEnoughCommonStock(common: Holdings, buy: Holdings) {
-  return Object.values(Animal).every((animal) => (common[animal] ?? 0) >= (buy[animal] ?? 0));
+  return Object.values(Animal).every((animal) => common[animal] >= buy[animal]);
 }
