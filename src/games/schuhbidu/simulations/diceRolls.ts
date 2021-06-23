@@ -1,13 +1,22 @@
+import { stat } from 'fs';
 import { rollDice, getDiceRollStats, printDiceRoll, printDiceRollStats } from '../concepts/Dice';
 
 export function run() {
-  for (let i = 0; i < 25; i += 1) {
-    const roll = rollDice();
-    printDiceRoll(roll, 'roll');
-    const stats = getDiceRollStats(roll);
-    printDiceRollStats(stats, 'roll stats');
-  }
+  simulateRollProbability(1000000, 4);
+  simulateRollProbability(1000000, 3);
+  simulateRollProbability(1000000, 2);
 }
 
-// Run the simulation
-run();
+function simulateRollProbability(times: number, threshold: number) {
+    let success = 0;
+    for (let i = 0; i < times; i += 1) {
+      const roll = rollDice();
+      const stats = getDiceRollStats(roll);
+      if (stats.red + stats.joker >= threshold) {
+        success += 1;
+      }
+    }
+
+    console.log('PROBABILITY', threshold, success / times);
+}
+

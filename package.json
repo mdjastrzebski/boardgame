@@ -2,9 +2,12 @@
   "name": "boardgame",
   "version": "1.0.0-alpha1",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "ramda": "^0.27.1"
+  },
   "devDependencies": {
     "@types/node": "^15.12.4",
+    "@types/ramda": "^0.27.41",
     "typescript": "^4.3.4"
   },
   "description": "Boardgame simulation tools",

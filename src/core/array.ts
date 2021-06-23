@@ -13,6 +13,6 @@ export function countMathingPredicate<Value>(values: Value[], predicate: (value:
   return values.filter(predicate).length;
 }
 
-export function countMathingValue<Value>(values: Value[], valueToMatch: Value): number {
+export function countMathingValue<Value>(values: readonly Value[], valueToMatch: Value): number {
   return values.filter((value) => value === valueToMatch).length;
 }
