@@ -1,9 +1,9 @@
-import * as SuperFarmer from '..';
+import { rollDice, printDiceRoll } from '../rules';
 
 function run() {
   for (let i = 0; i < 25; i += 1) {
-    const roll = SuperFarmer.rollDice();
-    SuperFarmer.printDiceRoll(roll);
+    const roll = rollDice();
+    printDiceRoll(roll, "roll");
   }
 }
 

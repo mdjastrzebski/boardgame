@@ -1,4 +1,4 @@
-import { GameState, DiceSymbol, DiceRoll, rollHasSymbol, rollSymbolCount, Animal, Holdings, emptyHoldings } from './rules';
+import { GameState, DiceSymbol, DiceRoll, hasDiceRollSymbol, getDiceRollSymbolCount, Animal, Holdings, emptyHoldings } from './rules';
 
 /**
  * Super Farmer player game state: number of rabbits, sheep, pigs, cows, horses, small dogs & large dogs.
@@ -30,36 +30,36 @@ export function diceRollReducer(state: GameState, roll: DiceRoll): GameState {
 
 /** Rabbits are vulnerable to fox */
 function getRabbitsDiff(playerCount: number, commonCount: number, roll: DiceRoll, smallDogCount: number): number {
-  if (smallDogCount === 0 && rollHasSymbol(roll, DiceSymbol.Fox)) {
+  if (smallDogCount === 0 && hasDiceRollSymbol(roll, DiceSymbol.Fox)) {
     return -playerCount;
   }
 
-  const base = playerCount + rollSymbolCount(roll, DiceSymbol.Rabbit);
+  const base = playerCount + getDiceRollSymbolCount(roll, DiceSymbol.Rabbit);
   const breed = Math.floor(base / 2);
   return Math.min(commonCount, breed);
 }
 
 /** Sheep, Pigs & Cows are vulneralbe to wolf */
 function getLargeAnimalDiff(symbol: DiceSymbol, playerCount: number, commonCount: number, roll: DiceRoll, largeDogCount: number): number {
-  if (largeDogCount === 0 && rollHasSymbol(roll, DiceSymbol.Wolf)) {
+  if (largeDogCount === 0 && hasDiceRollSymbol(roll, DiceSymbol.Wolf)) {
     return -playerCount;
   }
 
-  const base = playerCount + rollSymbolCount(roll, symbol);
+  const base = playerCount + getDiceRollSymbolCount(roll, symbol);
   const breed = Math.floor(base / 2);
   return Math.min(commonCount, breed);
 }
 
 /** Horser are not vulnerable */
 function getHorsesDiff(playerCount: number, commonCount: number, roll: DiceRoll): number {
-  const base = playerCount + rollSymbolCount(roll, DiceSymbol.Horse);
+  const base = playerCount + getDiceRollSymbolCount(roll, DiceSymbol.Horse);
   const breed = Math.floor(base / 2);
   return Math.min(commonCount, breed);
 }
 
 /** Small dogs are vulneralble to fox */
 function getSmallDogsDiff(playerCount: number, commonCount: number, roll: DiceRoll): number {
-  if (rollHasSymbol(roll, DiceSymbol.Fox)) {
+  if (hasDiceRollSymbol(roll, DiceSymbol.Fox)) {
     return -playerCount;
   }
 
@@ -69,7 +69,7 @@ function getSmallDogsDiff(playerCount: number, commonCount: number, roll: DiceRo
 
 /** Large dogs are vulneralble to fox */
 function getLargeDogsDiff(playerCount: number, commonCount: number, roll: DiceRoll): number {
-  if (rollHasSymbol(roll, DiceSymbol.Wolf)) {
+  if (hasDiceRollSymbol(roll, DiceSymbol.Wolf)) {
     return -playerCount;
   }
 

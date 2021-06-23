@@ -11,9 +11,9 @@ export enum DiceSymbol {
 }
 
 /**
- * Dice one (12 sides): 6 rabbits, 2 sheep, 2 pig, 1 horse, 1 fox
+ * Die one (12 sides): 6 rabbits, 2 sheep, 2 pig, 1 horse, 1 fox
  */
-export const diceOneSides = [
+export const dieOne = [
   DiceSymbol.Rabbit,
   DiceSymbol.Rabbit,
   DiceSymbol.Rabbit,
@@ -28,10 +28,12 @@ export const diceOneSides = [
   DiceSymbol.Fox,
 ];
 
+
+
 /**
- * Dice two (12 sides): 6 rabbits, 3 sheep, 1 pig, 1 cow, 1 wolf
+ * Die two (12 sides): 6 rabbits, 3 sheep, 1 pig, 1 cow, 1 wolf
  */
-export const diceTwoSides = [
+export const dieTwo = [
   DiceSymbol.Rabbit,
   DiceSymbol.Rabbit,
   DiceSymbol.Rabbit,
@@ -53,14 +55,14 @@ export type DiceRoll = [DiceSymbol, DiceSymbol];
  * @returns Tuple of DiceSymbol.
  */
 export function rollDice(): DiceRoll {
-  return [randomElement(diceOneSides), randomElement(diceTwoSides)];
+  return [randomElement(dieOne), randomElement(dieTwo)];
 }
 
-export function rollHasSymbol(roll: DiceRoll, symbol: DiceSymbol) {
+export function hasDiceRollSymbol(roll: DiceRoll, symbol: DiceSymbol) {
   return roll[0] === symbol || roll[1] === symbol;
 }
 
-export function rollSymbolCount(roll: DiceRoll, symbol: DiceSymbol) {
+export function getDiceRollSymbolCount(roll: DiceRoll, symbol: DiceSymbol) {
   return (roll[0] === symbol ? 1 : 0) + (roll[1] === symbol ? 1 : 0);
 }
 
