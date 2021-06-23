@@ -1,6 +1,6 @@
 import { rollDice, getDiceRollStats, printDiceRoll, printDiceRollStats } from '../concepts/Dice';
 
-function run() {
+export function run() {
   for (let i = 0; i < 25; i += 1) {
     const roll = rollDice();
     printDiceRoll(roll, 'roll');

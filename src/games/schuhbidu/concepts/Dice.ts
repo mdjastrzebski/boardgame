@@ -1,5 +1,6 @@
 import { countMathingValue } from "../../../core/array";
 import { randomElement } from "../../../core/random";
+import { ValueOf } from "../../../core/types";
 
 export enum DieSymbol {
   Red = 'red',
@@ -22,14 +23,7 @@ export function printDiceRoll(roll: DiceRoll, label: string) {
     console.log(`  ${label}:`, ...roll);
 }
 
-export type DiceRollStats = {
-  red: number;
-  yellow: number;
-  green: number;
-  blue: number;
-  black: number;
-  joker: number;
-};
+export type DiceRollStats = Record<ValueOf<typeof DieSymbol>, number>;
 
 export function getDiceRollStats(roll: DiceRoll): DiceRollStats {
   return {
