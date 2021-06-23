@@ -16,3 +16,22 @@ export function countMathingPredicate<Value>(values: Value[], predicate: (value:
 export function countMathingValue<Value>(values: readonly Value[], valueToMatch: Value): number {
   return values.filter((value) => value === valueToMatch).length;
 }
+
+type FindMaxResult<Element> = [element: Element | null, index: number | null, value: number];
+
+export function findMax<Element>(elements: readonly Element[], selector: (element: Element) => number): FindMaxResult<Element> {
+  let maxElement = null;
+  let maxElementIndex = null;
+  let maxValue = -Infinity;
+
+  elements.forEach((element, index) => {
+    const currentValue = selector(element);
+    if (maxValue > currentValue) {
+      maxElement = element;
+      maxElementIndex = index;
+      maxValue = currentValue;
+    }
+  });
+
+  return [maxElement, maxElementIndex, maxValue];
+}

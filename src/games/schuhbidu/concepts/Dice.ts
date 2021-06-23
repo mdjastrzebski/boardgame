@@ -30,6 +30,14 @@ export function getDiceRollStats(roll: DiceRoll): DiceRollStats {
   };
 }
 
+export function add(a: DiceRollStats, b: Partial<DiceRollStats>): DiceRollStats {
+  return R.mapObjIndexed((_, key) => a[key] + (b[key] ?? 0), a);
+}
+
+export function subtract(a: DiceRollStats, b: Partial<DiceRollStats>): DiceRollStats {
+  return R.mapObjIndexed((_, key) => a[key] - (b[key] ?? 0), a);
+}
+
 export function printDiceRollStats(stats: DiceRollStats, label: string) {
   console.log(`  ${label}:`, R.pickBy((value) => value > 0, stats));
 }
