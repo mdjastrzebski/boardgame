@@ -1,3 +1,3 @@
-import { run } from "./games/schuhbidu/simulations/diceRolls";
+import { run } from "./games/schuhbidu/simulations/multipleGames";
 
 run()

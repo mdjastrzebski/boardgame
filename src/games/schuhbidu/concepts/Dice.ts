@@ -1,43 +1,79 @@
 import * as R from 'ramda';
 import { countMathingValue } from '../../../core/array';
 import { randomElement } from '../../../core/random';
-import { colors } from './Color';
+import { Color, colors } from './Color';
 
+/**
+ * Constant representing die sides.
+ */
 export const die = [...colors, 'joker'] as const;
 
+/**
+ * Union type representing all die symbols.
+ */
 export type DieSymbol = typeof die[number];
 
-export type DiceRoll = [DieSymbol, DieSymbol, DieSymbol, DieSymbol];
+/**
+ * Record type representing number of rolled dice of each symbol.
+ */
+export type DiceRoll = Record<DieSymbol, number>;
 
-export function rollDice(): DiceRoll {
-  return [randomElement(die), randomElement(die), randomElement(die), randomElement(die)];
-}
+/**
+ * Constant representing result of rolling no dice. Useful for simplified DiceRoll construction. 
+ */
+export const emptyDiceRoll = { red: 0, yellow: 0, green: 0, blue: 0, black: 0, joker: 0 } as const;
 
-export function printDiceRoll(roll: DiceRoll, label: string) {
-  console.log(`  ${label}:`, ...roll);
-}
+/**
+ * Preform a random dice roll.
+ * 
+ * @param count - number of dice to roll
+ * @returns DiceRoll
+ */
+export function rollDice(count: number = 4): DiceRoll {
+  const rawRoll = R.times(() => randomElement(die), count);
 
-export type DiceRollStats = Record<DieSymbol, number>;
-
-export function getDiceRollStats(roll: DiceRoll): DiceRollStats {
   return {
-    red: countMathingValue(roll, 'red'),
-    yellow: countMathingValue(roll, 'yellow'),
-    green: countMathingValue(roll, 'grenen'),
-    blue: countMathingValue(roll, 'blue'),
-    black: countMathingValue(roll, 'black'),
-    joker: countMathingValue(roll, 'joker'),
+    red: countMathingValue<DieSymbol>(rawRoll, 'red'),
+    yellow: countMathingValue<DieSymbol>(rawRoll, 'yellow'),
+    green: countMathingValue<DieSymbol>(rawRoll, 'green'),
+    blue: countMathingValue<DieSymbol>(rawRoll, 'blue'),
+    black: countMathingValue<DieSymbol>(rawRoll, 'black'),
+    joker: countMathingValue<DieSymbol>(rawRoll, 'joker'),
   };
 }
-
-export function add(a: DiceRollStats, b: Partial<DiceRollStats>): DiceRollStats {
-  return R.mapObjIndexed((_, key) => a[key] + (b[key] ?? 0), a);
+export function printDiceRoll(stats: DiceRoll, label: string) {
+  console.log(
+    `  ${label}:`,
+    R.pickBy((value) => value > 0, stats),
+  );
 }
 
-export function subtract(a: DiceRollStats, b: Partial<DiceRollStats>): DiceRollStats {
-  return R.mapObjIndexed((_, key) => a[key] - (b[key] ?? 0), a);
+/**
+ * Returns number of dice present in given dice roll.
+ * 
+ * @param roll 
+ * @returns 
+ */
+export function getDiceCount(roll: DiceRoll) {
+  return roll.red + roll.yellow + roll.green + roll.blue + roll.black + roll.joker;
 }
 
-export function printDiceRollStats(stats: DiceRollStats, label: string) {
-  console.log(`  ${label}:`, R.pickBy((value) => value > 0, stats));
+export function addDiceRolls(first: DiceRoll, second: DiceRoll): DiceRoll {
+  return R.mapObjIndexed((_, key) => first[key] + second[key], first);
+}
+
+export function subtractDiceRolls(first: DiceRoll, second: DiceRoll): DiceRoll {
+  return R.mapObjIndexed((_, key) => first[key] - second[key], first);
+}
+
+export function pickDiceColorOrJoker(roll: DiceRoll, color: Color): DiceRoll {
+  return {
+    ...emptyDiceRoll,
+    [color]: roll[color],
+    joker: roll.joker,
+  };
+} 
+
+export function isRollEnoughForColorCount(roll: DiceRoll, color: Color, count: number) {
+  return roll[color] + roll.joker >= count;
 }
