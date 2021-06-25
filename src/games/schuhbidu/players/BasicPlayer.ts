@@ -2,7 +2,8 @@ import { Color } from '../concepts/Color';
 import { DiceRoll, emptyDiceRoll, isRollEnoughForColorCount } from '../concepts/Dice';
 import { GameState } from '../concepts/Game';
 import { Player } from '../concepts/Player';
-import { Tile, TileSet, tileLengthsFromHighest, getColorsWithLength } from '../concepts/Tile';
+import { Tile, TILE_VALUES } from '../concepts/Tile';
+import { TileSet } from '../concepts/TileSet';
 
 export class BasicPlayer implements Player {
   getDiceToKeep(state: GameState, roll: DiceRoll, rerollsLeft: number): DiceRoll {
@@ -19,10 +20,10 @@ export class BasicPlayer implements Player {
   }
 
   getBoardTileToPick(state: GameState, finalRoll: DiceRoll): Tile | null {
-    for (let length of tileLengthsFromHighest) {
-      const colors = getColorsWithLength(state.board, length);
-      const matchingRolls = colors.filter((color) => isRollEnoughForColorCount(finalRoll, color, length));
-      if (matchingRolls.length > 0) return { color: matchingRolls[0], length };
+    for (const value of TILE_VALUES) {
+      const colors = state.board.getColorsForValue(value);
+      const matchingRolls = colors.filter((color) => isRollEnoughForColorCount(finalRoll, color, value));
+      if (matchingRolls.length > 0) return { color: matchingRolls[0], value };
     }
 
     return null;
@@ -30,8 +31,8 @@ export class BasicPlayer implements Player {
 }
 
 function pickHighValueBoardColors(board: TileSet): Color[] {
-  for (let length of tileLengthsFromHighest) {
-    const colors = getColorsWithLength(board, length);
+  for (let value of TILE_VALUES) {
+    const colors = board.getColorsForValue(value);
     if (colors.length > 0) return colors;
   }
 

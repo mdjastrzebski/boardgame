@@ -1,15 +1,16 @@
-import { rollDice, getDiceCount, addDiceRolls, printDiceRoll } from '../concepts/Dice';
-import { Tile, TileSet, emptyTileSet } from '../concepts/Tile';
+import { rollDice, getDiceCount, addDiceRolls } from '../concepts/Dice';
+import { Tile } from '../concepts/Tile';
 import { Player } from '../concepts/Player'
 import { GameState, getInitialGameState } from '../concepts/Game';
 import { BasicPlayer } from '../players/BasicPlayer';
 import { BasicV2Player } from '../players/BasicV2Player';
+import { TileSet } from '../concepts/TileSet';
 
 const turnsLimit = 100;
 
 export function run() {
   const player = new BasicPlayer();
-  const board: TileSet = { ...emptyTileSet, red: new Set([4, 3, 2]) };
+  const board = new TileSet({ red: [4, 3, 2] });
   const state = {
     ...getInitialGameState(1),
     board,
@@ -25,7 +26,7 @@ function simulateRollsDistribution(times: number, state: GameState, player: Play
 
   for (let i = 0; i < times; i += 1) {
     const tile = getPlayerTileToPick(state, player);
-    results[(tile && tile.length) || 0] += 1;
+    results[(tile && tile.value) || 0] += 1;
   }
 
   console.log(`Results: 4s: ${results[4] / times}, 3s: ${results[3] / times}, 2s: ${results[2] / times}, 0s: ${results[0] / times}`);

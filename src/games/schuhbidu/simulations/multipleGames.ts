@@ -1,11 +1,11 @@
 import * as R from 'ramda';
 import * as math from 'mathjs'
-import { TileSet, fullTileSet } from '../concepts/Tile';
 import { Player } from '../concepts/Player';
 import { BasicPlayer } from '../players/BasicPlayer';
 import { BasicV2Player } from '../players/BasicV2Player';
 import { getGameScores } from './singleGame';
 import { trainProbPlayer } from '../players/ProbPlayer';
+import { TileSet } from '../concepts/TileSet';
 
 const turnsLimit = 100;
 
@@ -15,8 +15,8 @@ export function run() {
   const probPlayer = trainProbPlayer();
 
   console.log('Playing games...');
-  const players = [basicPlayer, probPlayer, basicPlayer];
-  const initialBoard: TileSet = { ...fullTileSet };
+  const players = [basicPlayer, basicPlayer, basicPlayer, basicPlayer];
+  const initialBoard = TileSet.complete;
 
   simulateGames(100000, players, initialBoard);
 }

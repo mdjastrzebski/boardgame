@@ -1,9 +1,9 @@
 import { rollDice, getDiceCount, addDiceRolls } from '../concepts/Dice';
-import { emptyTileSet, TileSet } from '../concepts/Tile';
 import { Player } from '../concepts/Player';
 import { BasicPlayer } from '../players/BasicPlayer';
 import { GameState, getInitialGameState } from '../concepts/Game';
 import { trainProbPlayer } from '../players/ProbPlayer';
+import { TileSet } from '../concepts/TileSet';
 
 export function run() {
   console.log('Traing prop player...');
@@ -11,7 +11,7 @@ export function run() {
   const probPlayer = trainProbPlayer();
 
   console.log('Results...');
-  const board: TileSet = { ...emptyTileSet, red: new Set([4, 3, 2]), yellow: new Set([3, 2]), blue: new Set([4]) };
+  const board = new TileSet({ red: [4, 3, 2], yellow: [3, 2], blue: [4] });
   const state = {
     ...getInitialGameState(1),
     board,
@@ -51,7 +51,7 @@ function getRollsValue(state: GameState, player: Player) {
 
   const results = player.getBoardTileToPick(state, result2);
 
-  return (results && results.length) || 0;
+  return (results && results.value) || 0;
 }
 
 run();
