@@ -1,28 +1,21 @@
 import { Color } from '../concepts/Color';
-import { DiceRoll, emptyDiceRoll, isRollEnoughForColorCount } from '../concepts/Dice';
+import { DiceSet } from '../concepts/Dice';
 import { GameState } from '../concepts/Game';
 import { Player } from '../concepts/Player';
 import { Tile, TILE_VALUES } from '../concepts/Tile';
 import { TileSet } from '../concepts/TileSet';
 
 export class BasicPlayer implements Player {
-  getDiceToKeep(state: GameState, roll: DiceRoll, rerollsLeft: number): DiceRoll {
+  getDiceToKeep(state: GameState, roll: DiceSet, rerollsLeft: number): DiceSet {
     const highValueColors = pickHighValueBoardColors(state.board);
     const color = pickRollColor(roll, highValueColors);
-
-    if (color == null) return emptyDiceRoll;
-
-    return {
-      ...emptyDiceRoll,
-      [color]: roll[color],
-      joker: roll.joker,
-    };
+    return roll.pickColorAndJokers(color);
   }
 
-  getBoardTileToPick(state: GameState, finalRoll: DiceRoll): Tile | null {
+  getBoardTileToPick(state: GameState, finalRoll: DiceSet): Tile | null {
     for (const value of TILE_VALUES) {
       const colors = state.board.getColorsForValue(value);
-      const matchingRolls = colors.filter((color) => isRollEnoughForColorCount(finalRoll, color, value));
+      const matchingRolls = colors.filter((color) => finalRoll.getCountInColorOrJoker(color) >= value);
       if (matchingRolls.length > 0) return { color: matchingRolls[0], value };
     }
 
@@ -39,9 +32,9 @@ function pickHighValueBoardColors(board: TileSet): Color[] {
   return [];
 }
 
-function pickRollColor(roll: DiceRoll, highValueColors: Color[]): Color | null {
+function pickRollColor(roll: DiceSet, highValueColors: Color[]): Color | null {
   for (let count of [4, 3, 2, 1]) {
-    const diceColors = highValueColors.filter((color) => roll[color] + roll.joker === count);
+    const diceColors = highValueColors.filter((color) => roll.getCountInColorOrJoker(color) === count);
     if (diceColors.length > 0) return diceColors[0];
   }
 

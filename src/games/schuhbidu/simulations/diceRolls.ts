@@ -1,5 +1,5 @@
 import { Color } from '../concepts/Color';
-import { rollDice } from '../concepts/Dice';
+import { DiceSet } from '../concepts/Dice';
 
 export function run() {
   simulateRollProbability(1000000, 4, 'red');
@@ -20,6 +20,6 @@ function simulateRollProbability(times: number, threshold: number, color: Color)
 }
 
 function isRollSuccessul(threshold: number, color: Color) {
-  const roll = rollDice();
-  return roll.red + roll.joker >= threshold
+  const roll = DiceSet.roll();
+  return roll.getCountInColorOrJoker('red') >= threshold
 }

@@ -6,78 +6,81 @@ import { Color, colors } from './Color';
 /**
  * Constant representing die sides.
  */
-export const die = [...colors, 'joker'] as const;
+export const DIE = [...colors, 'joker'] as const;
 
 /**
  * Union type representing all die symbols.
  */
-export type DieSymbol = typeof die[number];
+export type DieSymbol = typeof DIE[number];
 
-/**
- * Record type representing number of rolled dice of each symbol.
- */
-export type DiceRoll = Record<DieSymbol, number>;
+type DiceSetInput = Partial<DiceSetData>;
 
-/**
- * Constant representing result of rolling no dice. Useful for simplified DiceRoll construction. 
- */
-export const emptyDiceRoll = { red: 0, yellow: 0, green: 0, blue: 0, black: 0, joker: 0 } as const;
+type DiceSetData = Record<DieSymbol, number>;
 
-/**
- * Preform a random dice roll.
- * 
- * @param count - number of dice to roll
- * @returns DiceRoll
- */
-export function rollDice(count: number = 4): DiceRoll {
-  const rawRoll = R.times(() => randomElement(die), count);
+const emptyDiceRollData = { red: 0, yellow: 0, green: 0, blue: 0, black: 0, joker: 0 } as const;
+export class DiceSet {
+  data: DiceSetData;
 
-  return {
-    red: countMathingValue<DieSymbol>(rawRoll, 'red'),
-    yellow: countMathingValue<DieSymbol>(rawRoll, 'yellow'),
-    green: countMathingValue<DieSymbol>(rawRoll, 'green'),
-    blue: countMathingValue<DieSymbol>(rawRoll, 'blue'),
-    black: countMathingValue<DieSymbol>(rawRoll, 'black'),
-    joker: countMathingValue<DieSymbol>(rawRoll, 'joker'),
-  };
-}
-export function printDiceRoll(stats: DiceRoll, label: string) {
-  console.log(
-    `  ${label}:`,
-    R.pickBy((value) => value > 0, stats),
-  );
-}
+  constructor(input?: DiceSetInput) {
+    this.data = { ...emptyDiceRollData, ...input };
+  }
 
-/**
- * Returns number of dice present in given dice roll.
- * 
- * @param roll 
- * @returns 
- */
-export function getDiceCount(roll: DiceRoll) {
-  return roll.red + roll.yellow + roll.green + roll.blue + roll.black + roll.joker;
-}
+  get count() {
+    let result = 0;
+    for (let symbol of DIE) {
+      result += this.data[symbol];
+    }
 
-export function addDiceRolls(first: DiceRoll, second: DiceRoll): DiceRoll {
-  return R.mapObjIndexed((_, key) => first[key] + second[key], first);
-}
+    return result;
+  }
 
-export function subtractDiceRolls(first: DiceRoll, second: DiceRoll): DiceRoll {
-  return R.mapObjIndexed((_, key) => first[key] - second[key], first);
-}
+  getCountInColorOrJoker(color: Color) {
+    return this.data[color] + this.data.joker;
+  }
 
-export function pickDiceColorOrJoker(roll: DiceRoll, color: Color): DiceRoll {
-  return {
-    ...emptyDiceRoll,
-    [color]: roll[color],
-    joker: roll.joker,
-  };
-} 
+  toString() {
+    return R.pickBy((value) => value > 0, this.data);
+  }
 
-export function isRollEnoughForColorCount(roll: DiceRoll, color: Color, count: number) {
-  return roll[color] + roll.joker >= count;
-}
+  clone() {
+    const result = new DiceSet();
+    result.data = { ...this.data };
+    return result;
+  }
 
-export function getDiceInColorOrJoker(roll: DiceRoll, color: Color) {
-  return roll[color] + roll.joker;
+  addDice(other: DiceSet) {
+    const result = this.clone();
+    result.data = R.mapObjIndexed((value, key) => value + other.data[key], this.data);
+    return result;
+  }
+
+  subtractDice(other: DiceSet) {
+    const result = this.clone();
+    result.data = R.mapObjIndexed((value, key) => value - other.data[key], this.data);
+    return result;
+  }
+
+  pickColorAndJokers(color: Color | null): DiceSet {
+    const result = this.clone();
+    result.data.joker = this.data.joker;
+
+    if (color != null) {
+      result.data[color] = this.data[color];
+    }
+
+    return result;
+  }
+
+  static roll(count: number = 4): DiceSet {
+    const rawRoll = R.times(() => randomElement(DIE), count);
+
+    return new DiceSet({
+      red: countMathingValue<DieSymbol>(rawRoll, 'red'),
+      yellow: countMathingValue<DieSymbol>(rawRoll, 'yellow'),
+      green: countMathingValue<DieSymbol>(rawRoll, 'green'),
+      blue: countMathingValue<DieSymbol>(rawRoll, 'blue'),
+      black: countMathingValue<DieSymbol>(rawRoll, 'black'),
+      joker: countMathingValue<DieSymbol>(rawRoll, 'joker'),
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { findMax } from '../../../core/array';
 import { Color, colors } from '../concepts/Color';
-import { DiceRoll, emptyDiceRoll, getDiceInColorOrJoker, isRollEnoughForColorCount, rollDice } from '../concepts/Dice';
+import { DiceSet } from '../concepts/Dice';
 import { GameState } from '../concepts/Game';
 import { Player } from '../concepts/Player';
 import { Tile, TILE_VALUES } from '../concepts/Tile';
@@ -12,40 +12,27 @@ export class ProbPlayer implements Player {
     this.expectedValueTable = expectedValueTable;
   }
 
-  getDiceToKeep(state: GameState, roll: DiceRoll, rerollsLeft: number): DiceRoll {
+  getDiceToKeep(state: GameState, roll: DiceSet, rerollsLeft: number): DiceSet {
     if (rerollsLeft === 1) {
       const [bestColor] = findMax(colors, (color) => {
         const encodedValues = state.board.getEncodedValuesForColor(color);
-        const matchingDice = getDiceInColorOrJoker(roll, color);
+        const matchingDice = roll.getCountInColorOrJoker(color);
         return this.expectedValueTable[encodedValues][matchingDice];
       });
 
-      // Should not happen
-      if (bestColor == null) return emptyDiceRoll;
-
-      return {
-        ...emptyDiceRoll,
-        [bestColor]: roll[bestColor],
-        joker: roll.joker,
-      };
+      return roll.pickColorAndJokers(bestColor);
     }
 
     const highValueColors = pickHighValueBoardColors(state.board);
     const color = pickRollColor(roll, highValueColors);
 
-    if (color == null) return emptyDiceRoll;
-
-    return {
-      ...emptyDiceRoll,
-      [color]: roll[color],
-      joker: roll.joker,
-    };
+    return roll.pickColorAndJokers(color);
   }
 
-  getBoardTileToPick(state: GameState, finalRoll: DiceRoll): Tile | null {
+  getBoardTileToPick(state: GameState, finalRoll: DiceSet): Tile | null {
     for (const value of TILE_VALUES) {
       const colors = state.board.getColorsForValue(value);
-      const matchingRolls = colors.filter((color) => isRollEnoughForColorCount(finalRoll, color, value));
+      const matchingRolls = colors.filter((color) => finalRoll.getCountInColorOrJoker(color) >= value);
       if (matchingRolls.length > 0) return { color: matchingRolls[0], value };
     }
 
@@ -62,14 +49,15 @@ function pickHighValueBoardColors(board: TileSet): Color[] {
   return [];
 }
 
-function pickRollColor(roll: DiceRoll, highValueColors: Color[]): Color | null {
+function pickRollColor(roll: DiceSet, highValueColors: Color[]): Color | null {
   for (let count of [4, 3, 2, 1]) {
-    const diceColors = highValueColors.filter((color) => roll[color] + roll.joker === count);
+    const diceColors = highValueColors.filter((color) => roll.getCountInColorOrJoker(color) === count);
     if (diceColors.length > 0) return diceColors[0];
   }
 
   return null;
 }
+
 
 export function trainProbPlayer() {
   const expectedValueTable = getExpectedValueTable();
@@ -100,8 +88,8 @@ function getExpectedValue(rollCount: number, lengthSet: Set<number>, matchingDic
 
   let total = 0;
   for (let i = 0; i < rollCount; i += 1) {
-    const roll = rollDice(diceToRoll);
-    const additionalMatchingDice = getDiceInColorOrJoker(roll, 'red');
+    const roll = DiceSet.roll(diceToRoll);
+    const additionalMatchingDice = roll.getCountInColorOrJoker('red');
     total += getScore(lengthSet, matchingDice + additionalMatchingDice);
   }
 

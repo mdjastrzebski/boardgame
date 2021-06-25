@@ -1,5 +1,5 @@
 import { Color } from '../concepts/Color';
-import { rollDice, getDiceCount, addDiceRolls, pickDiceColorOrJoker } from '../concepts/Dice';
+import { DiceSet } from '../concepts/Dice';
 
 export function run() {
   simulateRollProbability(1000000, 4, 'red');
@@ -23,20 +23,20 @@ function simulateRollProbability(times: number, value: number, color: Color) {
 
 function isRollWithRerollsSuccessul(value: number, color: Color) {
   // Initial roll
-  const roll0 = rollDice(4);
-  const keepers0 = pickDiceColorOrJoker(roll0, color);
+  const roll0 = DiceSet.roll(4);
+  const keepers0 = roll0.pickColorAndJokers(color);
 
   // First re-roll
-  const countToRoll1 = 4 - getDiceCount(keepers0);
-  const roll1 = rollDice(countToRoll1);
-  const result1 = addDiceRolls(keepers0, roll1);
-  const keepers1 = pickDiceColorOrJoker(result1, color);
+  const countToRoll1 = 4 - keepers0.count;
+  const roll1 = DiceSet.roll(countToRoll1);
+  const result1 = keepers0.addDice(roll1);
+  const keepers1 = result1.pickColorAndJokers(color);
 
   // Second re-roll
-  const countToRoll2 = 4 - getDiceCount(keepers1);
-  const roll2 = rollDice(countToRoll2);
-  const result2 = addDiceRolls(keepers1, roll2);
+  const countToRoll2 = 4 - keepers1.count;
+  const roll2 = DiceSet.roll(countToRoll2);
+  const result2 = keepers1.addDice(roll2);
 
-  return result2[color] + result2.joker === value;
+  return result2.getCountInColorOrJoker(color) === value;
 }
 

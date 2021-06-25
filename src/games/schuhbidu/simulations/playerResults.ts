@@ -1,4 +1,4 @@
-import { rollDice, getDiceCount, addDiceRolls } from '../concepts/Dice';
+import { DiceSet } from '../concepts/Dice';
 import { Player } from '../concepts/Player';
 import { BasicPlayer } from '../players/BasicPlayer';
 import { GameState, getInitialGameState } from '../concepts/Game';
@@ -35,19 +35,19 @@ function simulateRollProbability(times: number, state: GameState, player: Player
 
 function getRollsValue(state: GameState, player: Player) {
   // Initial roll
-  const roll0 = rollDice(4);
+  const roll0 = DiceSet.roll(4);
   const keepers0 = player.getDiceToKeep(state, roll0, 2);
 
   // First re-roll
-  const countToRoll1 = 4 - getDiceCount(keepers0);
-  const roll1 = rollDice(countToRoll1);
-  const result1 = addDiceRolls(keepers0, roll1);
+  const countToRoll1 = 4 - keepers0.count;
+  const roll1 = DiceSet.roll(countToRoll1);
+  const result1 = keepers0.addDice(roll1);
   const keepers1 = player.getDiceToKeep(state, result1, 1);
 
   // Second re-roll
-  const countToRoll2 = 4 - getDiceCount(keepers1);
-  const roll2 = rollDice(countToRoll2);
-  const result2 = addDiceRolls(keepers1, roll2);
+  const countToRoll2 = 4 - keepers1.count;
+  const roll2 = DiceSet.roll(countToRoll2);
+  const result2 = keepers1.addDice(roll2);
 
   const results = player.getBoardTileToPick(state, result2);
 
