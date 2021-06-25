@@ -77,3 +77,7 @@ export function pickDiceColorOrJoker(roll: DiceRoll, color: Color): DiceRoll {
 export function isRollEnoughForColorCount(roll: DiceRoll, color: Color, count: number) {
   return roll[color] + roll.joker >= count;
 }
+
+export function getDiceInColorOrJoker(roll: DiceRoll, color: Color) {
+  return roll[color] + roll.joker;
+}

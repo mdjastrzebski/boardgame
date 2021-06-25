@@ -3,18 +3,23 @@ import { emptyTileSet, TileSet } from '../concepts/Tile';
 import { Player } from '../concepts/Player';
 import { BasicPlayer } from '../players/BasicPlayer';
 import { GameState, getInitialGameState } from '../concepts/Game';
+import { trainProbPlayer } from '../players/ProbPlayer';
 
 export function run() {
-  const player = new BasicPlayer();
-  const board: TileSet = { ...emptyTileSet, red: new Set([4, 3, 2]) };
+  console.log('Traing prop player...');
+  const basicPlayer = new BasicPlayer();
+  const probPlayer = trainProbPlayer();
+
+  console.log('Results...');
+  const board: TileSet = { ...emptyTileSet, red: new Set([4, 3, 2]), yellow: new Set([3, 2]), blue: new Set([4]) };
   const state = {
     ...getInitialGameState(1),
-    board
+    board,
   };
 
-  simulateRollProbability(1000000, state, player);
-  simulateRollProbability(1000000, state, player);
-  simulateRollProbability(1000000, state, player);
+  simulateRollProbability(1000000, state, probPlayer);
+  simulateRollProbability(1000000, state, probPlayer);
+  simulateRollProbability(1000000, state, probPlayer);
 }
 
 function simulateRollProbability(times: number, state: GameState, player: Player) {
@@ -46,5 +51,7 @@ function getRollsValue(state: GameState, player: Player) {
 
   const results = player.getBoardTileToPick(state, result2);
 
-  return results?.length || 0;
+  return (results && results.length) || 0;
 }
+
+run();

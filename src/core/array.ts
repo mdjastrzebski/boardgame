@@ -26,7 +26,7 @@ export function findMax<Element>(elements: readonly Element[], selector: (elemen
 
   elements.forEach((element, index) => {
     const currentValue = selector(element);
-    if (maxValue > currentValue) {
+    if (currentValue > maxValue) {
       maxElement = element;
       maxElementIndex = index;
       maxValue = currentValue;

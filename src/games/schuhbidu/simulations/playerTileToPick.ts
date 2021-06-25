@@ -1,8 +1,9 @@
 import { rollDice, getDiceCount, addDiceRolls, printDiceRoll } from '../concepts/Dice';
 import { Tile, TileSet, emptyTileSet } from '../concepts/Tile';
-import { Player } from '../concepts/Player';
-import { BasicPlayer } from '../players/BasicPlayer';
+import { Player } from '../concepts/Player'
 import { GameState, getInitialGameState } from '../concepts/Game';
+import { BasicPlayer } from '../players/BasicPlayer';
+import { BasicV2Player } from '../players/BasicV2Player';
 
 const turnsLimit = 100;
 
@@ -48,3 +49,5 @@ export function getPlayerTileToPick(state: GameState, player: Player): Tile | nu
 
   return player.getBoardTileToPick(state, result2);
 }
+
+//run();
