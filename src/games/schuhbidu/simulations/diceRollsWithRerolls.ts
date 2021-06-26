@@ -5,6 +5,7 @@ export function run() {
   simulateRollProbability(1000000, 4, 'red');
   simulateRollProbability(1000000, 3, 'red');
   simulateRollProbability(1000000, 2, 'red');
+  simulateRollProbability(1000000, 1, 'red');
   simulateRollProbability(1000000, 0, 'red');
 }
 

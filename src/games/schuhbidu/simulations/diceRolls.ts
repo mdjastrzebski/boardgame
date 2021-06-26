@@ -5,6 +5,8 @@ export function run() {
   simulateRollProbability(1000000, 4, 'red');
   simulateRollProbability(1000000, 3, 'red');
   simulateRollProbability(1000000, 2, 'red');
+  simulateRollProbability(1000000, 1, 'red');
+  simulateRollProbability(1000000, 0, 'red');
 }
 
 function simulateRollProbability(times: number, threshold: number, color: Color) {
@@ -21,5 +23,7 @@ function simulateRollProbability(times: number, threshold: number, color: Color)
 
 function isRollSuccessul(threshold: number, color: Color) {
   const roll = DiceSet.roll();
-  return roll.getCountInColorOrJoker('red') >= threshold
+  return roll.getCountInColorOrJoker(color) === threshold
 }
+
+run();

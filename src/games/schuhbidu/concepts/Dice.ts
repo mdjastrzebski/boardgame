@@ -1,7 +1,9 @@
 import * as R from 'ramda';
 import { countMathingValue } from '../../../core/array';
 import { randomElement } from '../../../core/random';
+import { run } from '../simulations/playerTileToPick';
 import { Color, colors } from './Color';
+import { TileSet } from './TileSet';
 
 /**
  * Constant representing die sides.
@@ -61,7 +63,7 @@ export class DiceSet {
   }
 
   pickColorAndJokers(color: Color | null): DiceSet {
-    const result = this.clone();
+    const result = new DiceSet();
     result.data.joker = this.data.joker;
 
     if (color != null) {
@@ -70,6 +72,8 @@ export class DiceSet {
 
     return result;
   }
+
+  static empty = new DiceSet(emptyDiceRollData);
 
   static roll(count: number = 4): DiceSet {
     const rawRoll = R.times(() => randomElement(DIE), count);
@@ -84,3 +88,5 @@ export class DiceSet {
     });
   }
 }
+
+run();
