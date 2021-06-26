@@ -1,8 +1,8 @@
-import { DiceSet } from './Dice';
+import { DiceResult } from './DiceResult';
 import { GameState } from "./Game";
 import { Tile } from './Tile';
 
 export interface Player {
-  getDiceToKeep(state: GameState, roll: DiceSet, rerollsLeft: number): DiceSet;
-  getBoardTileToPick(state: GameState, finalRoll: DiceSet): Tile | null;
+  getDiceToKeep(state: GameState, roll: DiceResult, rerollsLeft: number): DiceResult;
+  getBoardTileToPick(state: GameState, finalRoll: DiceResult): Tile | null;
 }

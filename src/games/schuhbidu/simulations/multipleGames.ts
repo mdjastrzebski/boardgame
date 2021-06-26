@@ -15,10 +15,11 @@ export function run() {
   const probPlayer = trainProbPlayer();
 
   console.log('Playing games...');
-  const players = [basicPlayer, basicPlayer];
   const initialBoard = TileSet.complete;
 
-  simulateGames(10000, players, initialBoard);
+  simulateGames(10000, [basicPlayer, basicPlayer], initialBoard);
+  simulateGames(10000, [basicPlayer, probPlayer], initialBoard);
+  simulateGames(10000, [probPlayer, basicPlayer], initialBoard);
 }
 
 function simulateGames(times: number, players: Player[], initiialBoard: TileSet) {
