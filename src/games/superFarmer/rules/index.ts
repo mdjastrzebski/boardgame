@@ -1,6 +1,6 @@
 export * from './Animal';
-export * from './Holdings';
+//export * from './Holdings';
 export * from './DiceRoll';
-export * from './Exchange';
-export * from './GameState';
-export * from './PlayerStrategy';
+// export * from './Exchange';
+//export * from './GameState';
+//export * from './PlayerStrategy';

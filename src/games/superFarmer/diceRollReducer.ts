@@ -8,13 +8,13 @@ export function diceRollReducer(state: GameState, roll: DiceRoll): GameState {
   const { player, common } = state;
 
   const diff = {
-    rabbit: getRabbitsDiff(player.rabbit, common.rabbit, roll, player.smallDog),
-    sheep: getLargeAnimalDiff(DiceSymbol.Sheep, player.sheep, common.sheep, roll, player.largeDog),
-    pig: getLargeAnimalDiff(DiceSymbol.Pig, player.pig, common.pig, roll, player.largeDog),
-    cow: getLargeAnimalDiff(DiceSymbol.Cow, player.cow, common.cow, roll, player.largeDog),
+    rabbit: getRabbitsDiff(player.rabbit, common.rabbit, roll, player.dogSmall),
+    sheep: getLargeAnimalDiff(DiceSymbol.Sheep, player.sheep, common.sheep, roll, player.dogLarge),
+    pig: getLargeAnimalDiff(DiceSymbol.Pig, player.pig, common.pig, roll, player.dogLarge),
+    cow: getLargeAnimalDiff(DiceSymbol.Cow, player.cow, common.cow, roll, player.dogLarge),
     horse: getHorsesDiff(player.horse, common.horse, roll),
-    smallDog: getSmallDogsDiff(player.smallDog, common.smallDog, roll),
-    largeDog: getLargeDogsDiff(player.largeDog, common.largeDog, roll),
+    dogSmall: getSmallDogsDiff(player.dogSmall, common.dogSmall, roll),
+    dogLarge: getLargeDogsDiff(player.dogLarge, common.dogLarge, roll),
   };
 
   const resultCommon: Holdings = { ...emptyHoldings };

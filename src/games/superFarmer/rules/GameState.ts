@@ -16,8 +16,8 @@ export const initialCommonState: Holdings = {
   pig: 20,
   cow: 12,
   horse: 6,
-  smallDog: 4,
-  largeDog: 2,
+  dogSmall: 4,
+  dogLarge: 2,
 };
 
 export const initialPlayerState: Holdings = {
@@ -26,8 +26,8 @@ export const initialPlayerState: Holdings = {
   pig: 0,
   cow: 0,
   horse: 0,
-  smallDog: 0,
-  largeDog: 0,
+  dogSmall: 0,
+  dogLarge: 0,
 };
 
 export function getInitialGameState() {

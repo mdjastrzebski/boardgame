@@ -8,8 +8,8 @@ export const emptyHoldings: Holdings = {
   pig: 0,
   cow: 0,
   horse: 0,
-  smallDog: 0,
-  largeDog: 0,
+  dogSmall: 0,
+  dogLarge: 0,
 };
 
 export function printHoldings(state: Holdings, label: string) {
@@ -19,8 +19,8 @@ export function printHoldings(state: Holdings, label: string) {
     state.pig ? `${state.pig} pig(s)` : null,
     state.cow ? `${state.cow} cow(s)` : null,
     state.horse ? `${state.horse} horse(s)` : null,
-    state.smallDog ? `${state.smallDog} small dog(s)` : null,
-    state.largeDog ? `${state.largeDog} large dog(s)` : null,
+    state.dogSmall ? `${state.dogSmall} small dog(s)` : null,
+    state.dogLarge ? `${state.dogLarge} large dog(s)` : null,
   ].filter(item => item != null);
 
   console.log(`${label}:`, entries);
