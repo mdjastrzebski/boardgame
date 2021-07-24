@@ -1,4 +1,4 @@
-import { EMPTY_ANIMAL_COUNT, fillAnimalCount, EMPTY_DICE_ROLL, fillDiceRoll, AnimalCount, DiceRoll } from '../rules';
+import { ZERO_ANIMAL_COUNT, fillAnimalCount, ZERO_DICE_ROLL, fillDiceRoll, AnimalCount, DiceRoll } from '../rules';
 import { applyDiceRoll, getTotalValue } from './sim1';
 
 test('getTotalValue', () => {

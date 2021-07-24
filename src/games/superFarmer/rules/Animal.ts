@@ -4,7 +4,7 @@ export type Animal = typeof ALL_ANIMALS[number];
 
 export type AnimalCount = Record<Animal, number>;
 
-export const EMPTY_ANIMAL_COUNT: AnimalCount = {
+export const ZERO_ANIMAL_COUNT: AnimalCount = {
   rabbit: 0,
   sheep: 0,
   pig: 0,
@@ -14,8 +14,18 @@ export const EMPTY_ANIMAL_COUNT: AnimalCount = {
   dogLarge: 0,
 } as const;
 
+export const TOTAL_ANIMAL_COUNT: AnimalCount = {
+  rabbit: 60,
+  sheep: 24,
+  pig: 20,
+  cow: 12,
+  horse: 6,
+  dogSmall: 4,
+  dogLarge: 2,
+}
+
 export function fillAnimalCount(animals: Partial<AnimalCount>): AnimalCount {
-  return { ...EMPTY_ANIMAL_COUNT, ...animals };
+  return { ...ZERO_ANIMAL_COUNT, ...animals };
 }
 
 export const valuePerAnimal: Record<Animal, number> = {

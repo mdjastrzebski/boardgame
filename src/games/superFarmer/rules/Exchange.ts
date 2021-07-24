@@ -1,12 +1,14 @@
-import { sum } from '../../../core/array';
-import { Animal, AnimalCount, valuePerAnimal } from './Animal';
-import { Holdings } from './Holdings';
-import { GameState } from './GameState';
+import { AnimalCount } from './Animal';
 import { getTotalValue } from '../simulations/sim1';
 
 /** Checks if given exchange is valid */
 export function isValidExchange(exchange: AnimalCount) {
-  return getTotalValue(exchange) && (getAnimalsToBuyCount(exchange) === 1 || getAnimalsToSellCount(exchange) === 1);
+  if (getTotalValue(exchange) !== 0) return false;
+
+  const toBuyCount = getAnimalsToBuyCount(exchange);
+  const toSellCount = getAnimalsToSellCount(exchange);
+
+  return (toBuyCount === 0 && toSellCount === 0) || toBuyCount === 1 || toSellCount === 1;
 }
 
 function getAnimalsToBuyCount(exchange: AnimalCount) {

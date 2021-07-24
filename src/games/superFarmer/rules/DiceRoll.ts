@@ -43,7 +43,7 @@ export const DIE_TWO: DieSymbol[] = [
 
 export type DiceRoll = Record<DieSymbol, number>;
 
-export const EMPTY_DICE_ROLL = {
+export const ZERO_DICE_ROLL = {
   rabbit: 0,
   sheep: 0,
   pig: 0,
@@ -54,7 +54,7 @@ export const EMPTY_DICE_ROLL = {
 } as const;
 
 export function buildDiceRoll(dice: DieSymbol[]): DiceRoll {
-  const result = { ...EMPTY_DICE_ROLL };
+  const result = { ...ZERO_DICE_ROLL };
 
   dice.forEach((symbol) => {
     result[symbol] += 1;
@@ -69,5 +69,5 @@ export function rollDice(): DiceRoll {
 }
 
 export function fillDiceRoll(roll: Partial<DiceRoll>): DiceRoll {
-  return { ...EMPTY_DICE_ROLL, ...roll };
+  return { ...ZERO_DICE_ROLL, ...roll };
 }
