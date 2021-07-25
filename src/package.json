@@ -3,7 +3,25 @@
   "version": "1.0.0-alpha1",
   "scripts": {},
   "dependencies": {
-    "jest": "^27.0.6"
+    "mathjs": "^9.4.3",
+    "ramda": "^0.27.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/mathjs": "^9.4.2",
+    "@types/node": "^15.12.4",
+    "@types/ramda": "^0.27.41",
+    "babel-jest": "^27.0.5",
+    "jest": "^27.0.5",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  },
+  "description": "Boardgame simulation tools",
+  "main": "main.js",
+  "repository": "https://github.com/mdjastrzebski/boardgame.git",
+  "author": "Maciej Jastrzebski <mdjastrzebski@gmail.com>",
+  "license": "MIT",
+  "private": false
 }

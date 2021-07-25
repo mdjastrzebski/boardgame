@@ -1,5 +1,5 @@
-export function buildArray<Element>(length: number, generator: (index: number) => Element) {
-  return Array(length).map((_, index) => generator(index));
+export function buildArray<Element>(length: number, generator: (index: number) => Element): Element[] {
+  return [...Array(length)].map((_, index) => generator(index));
 }
 
 /** Sum array of numbers */

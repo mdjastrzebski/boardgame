@@ -1,4 +1,4 @@
-import { ZERO_ANIMAL_COUNT, fillAnimalCount, ZERO_DICE_ROLL, fillDiceRoll, AnimalCount, DiceRoll } from '../rules';
+import { fillAnimalCount, fillDiceRoll, AnimalCount, DiceRoll, TOTAL_ANIMAL_COUNT } from '../rules';
 import { applyDiceRoll, getTotalValue } from './sim1';
 
 test('getTotalValue', () => {
@@ -13,7 +13,7 @@ test('getTotalValue', () => {
 });
 
 test('applyDiceRoll rabbits', () => {
-  const subject = (animals: Partial<AnimalCount>, roll: Partial<DiceRoll>) => applyDiceRoll(fillAnimalCount(animals), fillDiceRoll(roll));
+  const subject = (animals: Partial<AnimalCount>, roll: Partial<DiceRoll>) => applyDiceRoll(fillAnimalCount(animals), TOTAL_ANIMAL_COUNT,  fillDiceRoll(roll));
 
   expect(subject({}, { rabbit: 2 })).toEqual(fillAnimalCount({ rabbit: 1 }));
   expect(subject({ rabbit: 5 }, { rabbit: 1, fox: 1 })).toEqual(fillAnimalCount({ rabbit: 0 }));
