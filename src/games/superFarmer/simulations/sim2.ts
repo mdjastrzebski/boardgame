@@ -88,15 +88,6 @@ function isWinner(playerHoldings: AnimalCount) {
   return playerHoldings.rabbit > 0 && playerHoldings.sheep > 0 && playerHoldings.pig > 0 && playerHoldings.cow > 0 && playerHoldings.horse > 0;
 }
 
-function applyExchange(state: GameState, playerIndex: number, exchange: AnimalCount): GameState {
-  return applyTransfer(state, playerIndex, exchange);
-}
-
-function applyDiceRoll(state: GameState, playerIndex: number, roll: DiceRoll): GameState {
-  const transfer = getDiceRollTransfer(roll, state.playersHoldings[playerIndex], state.board);
-  return applyTransfer(state, playerIndex, transfer);
-}
-
 function applyTransfer(state: GameState, playerIndex: number, transfer: AnimalCount): GameState {
   const newPlayerHolding = addAnimalCounts(state.playersHoldings[playerIndex], transfer);
   const newBoard = subtractAnimalCount(state.board, transfer);
@@ -154,16 +145,17 @@ function playGame(players: Player[], enableLogging: boolean): number | null {
   for (let turn = 0; turn < turnLimit; turn += 1) {
     for (let playerIndex = 0; playerIndex < players.length; playerIndex += 1) {
       log(`Turn ${turn + 1}, Player ${playerIndex + 1}`);
+
       const player = players[playerIndex];
       const observedState = getObservedGameState(state, playerIndex);
       log('  Observed state', getObservedGameStateLogData(observedState));
 
-      const exchange = player.getExchangeDecision(observedState);
-      log('  Exchange transfer', getAnimalCountLogData(exchange));
+      const exchangeTransfer = player.getExchangeDecision(observedState);
+      log('  Exchange transfer', getAnimalCountLogData(exchangeTransfer));
 
-      state = applyExchange(state, playerIndex, exchange);
+      state = applyTransfer(state, playerIndex, exchangeTransfer);
       if (isWinner(state.playersHoldings[playerIndex])) {
-        log(`WINNER player ${playerIndex}`);
+        log(`WINNER player ${playerIndex + 1}`);
         return playerIndex;
       }
 
